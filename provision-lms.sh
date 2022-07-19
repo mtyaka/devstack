@@ -2,9 +2,9 @@
 set -eu -o pipefail
 set -x
 
-apps=( lms studio )
+apps=( lms cms )
 
-studio_port=18010
+cms_port=18010
 
 # Load database dumps for the largest databases to save time
 ./load-db.sh edxapp
@@ -39,13 +39,14 @@ docker-compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bi
 # Fix missing vendor file by clearing the cache
 docker-compose exec -T lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.prereqs_cache/Node_prereqs.sha1'
 
-# Create static assets for both LMS and Studio
+# Create static assets for both LMS and CMS
+# Create static assets for both LMS and CMS
 for app in "${apps[@]}"; do
     docker-compose exec -T $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
 done
 
-# Allow LMS SSO for Studio
-./provision-ida-user.sh studio studio "$studio_port"
+# Allow LMS SSO for CMS
+./provision-ida-user.sh cms cms "$cms_port"
 
 # Provision a retirement service account user
 ./provision-retirement-user.sh retirement retirement_service_worker

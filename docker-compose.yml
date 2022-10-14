@@ -335,6 +335,7 @@ services:
       - elasticsearch710
       - memcached
       - mysql57
+      - opensearch12
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -438,7 +439,6 @@ services:
       - memcached
       - mongo
       - mysql57
-      - opensearch12
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -600,7 +600,6 @@ services:
       - memcached
       - mongo
       - mysql57
-      - opensearch12
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
